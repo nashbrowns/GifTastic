@@ -8,9 +8,8 @@ var topicArr = [
 ]
 
 
-function addTopic(topic) {
+function genGif(topic) {
 
-    var gifInfo;
     var api_key = 'GLYlf1aVi8LQQsHb4inf9kUlc7NWxFVi'; //plz don't steal my api key
     var limit = '10';
 
@@ -22,10 +21,16 @@ function addTopic(topic) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
+        var gifObj = response.data;
+
+        for(var i=0;i<limit;i++){
+            var gifElem = $('<img>');
+            console.log(response.data[i]);
+        }
     });
 
 }
+
 function createButtons() {
 
     $('.gifBtn').remove(); //removes all gif generating buttons
@@ -53,7 +58,6 @@ $(document).ready(function () {
         event.preventDefault(); //prevents submit button event from bubbling to parent
 
         var newTopic = $('#gifSearch').val().trim(); //grabbing new topic text from #gifSearch element
-
         //prevents creation of empty button
         if (newTopic !== '') {
 
@@ -62,9 +66,16 @@ $(document).ready(function () {
 
             createButtons(); //re-creating gif buttons
         }
-        else{
+        else {
             alert('Please enter a topic first');
         }
+    });
+
+    //For some reason this definition for an onclick event has to be used becuase the DOM doesn't see it otherwise
+    $('#btnDiv').on('click','.gifBtn', function (event) {
+        event.preventDefault(); //prevents submit button event from bubbling to parent
+
+        genGif( $( this ).attr('id') );
     });
 
 });
