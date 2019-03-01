@@ -13,7 +13,7 @@ function genGif(topic) {
     var api_key = 'GLYlf1aVi8LQQsHb4inf9kUlc7NWxFVi'; //plz don't steal my api key
     var limit = '10';
 
-    var queryURL = `http://api.giphy.com/v1/gifs/search?q=${topic}&rating=g&api_key=${api_key}&limit=${limit}`;
+    var queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&rating=g&api_key=${api_key}&limit=${limit}`;
 
     console.log(queryURL);
 
@@ -33,20 +33,21 @@ function genGif(topic) {
 
             var cardElem = $('<div>')
                             .addClass('card')
-                            .attr('style','width: 20rem; height: 20rem;');
+                            .attr('style','width: 18rem; height: 20rem;');
         
             var gifElem = $('<img>');
 
             gifElem.attr('src', response.data[i].images.fixed_height_still.url)
                     .addClass('gif')
                     .attr('still', response.data[i].images.fixed_height_still.url)
-                    .attr('animate', response.data[i].images.fixed_width.url)
+                    .attr('animate', response.data[i].images.downsized_large.url)
                     .attr('moving', 'false')
                     .attr('alt', response.data[i].title);
             
             var cardBodElem = $('<div>')
                             .addClass('card-body');
             
+            $(cardBodElem).append($('<p>').text('Title: '+response.data[i].title));
             $(cardBodElem).append($('<p>').text('Rating: '+response.data[i].rating));
 
             $(cardElem).append(gifElem);
@@ -119,6 +120,7 @@ $(document).ready(function () {
         genGif( $( this ).attr('id') );
     });
 
+    //Onclick function that plays and pauses gifs by switching the img src
     $('.gifDiv').on('click','.gif', function(event) {
 
         if( ($(this).attr('moving') == 'false') ){
