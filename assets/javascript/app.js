@@ -21,11 +21,49 @@ function genGif(topic) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        var gifObj = response.data;
+
+        $('.card').remove();
+        
+        //for adding cards to the correct columns
+        var colChoice = 1;
 
         for(var i=0;i<limit;i++){
-            var gifElem = $('<img>');
+            
             console.log(response.data[i]);
+
+            var cardElem = $('<div>')
+                            .addClass('card')
+                            .attr('style','width: 18rem;');
+        
+            var gifElem = $('<img>');
+
+            gifElem.attr('src', response.data[i].images.fixed_height_still.url)
+                    .attr('still', response.data[i].images.fixed_height_still.url)
+                    .attr('animate', response.data[i].images.fixed_width.url)
+                    .attr('alt', response.data[i].title);
+            
+            var cardBodElem = $('<div>')
+                            .addClass('card-body');
+            
+            $(cardBodElem).append($('<p>').text('Rating: '+response.data[i].rating));
+
+            $(cardElem).append(gifElem);
+            $(cardElem).append(cardBodElem);
+
+            if(colChoice === 1){
+                $('#gifDiv1').append(cardElem);
+                colChoice = 2; 
+            }
+            else if(colChoice === 2){
+                $('#gifDiv2').append(cardElem);
+                colChoice = 3;
+            }
+            else if(colChoice === 3){
+                $('#gifDiv3').append(cardElem);
+                colChoice = 1;
+            }
+
+            
         }
     });
 
@@ -52,7 +90,6 @@ function createButtons() {
 
 $(document).ready(function () {
 
-    createButtons();
 
     $('#searchBtn').on('click', function (event) {
         event.preventDefault(); //prevents submit button event from bubbling to parent
@@ -75,7 +112,11 @@ $(document).ready(function () {
     $('#btnDiv').on('click','.gifBtn', function (event) {
         event.preventDefault(); //prevents submit button event from bubbling to parent
 
+        $('#topicDisplay').text($(this).text());
+
         genGif( $( this ).attr('id') );
     });
+
+    createButtons();
 
 });
