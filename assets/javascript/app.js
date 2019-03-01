@@ -33,13 +33,15 @@ function genGif(topic) {
 
             var cardElem = $('<div>')
                             .addClass('card')
-                            .attr('style','width: 18rem;');
+                            .attr('style','width: 20rem; height: 20rem;');
         
             var gifElem = $('<img>');
 
             gifElem.attr('src', response.data[i].images.fixed_height_still.url)
+                    .addClass('gif')
                     .attr('still', response.data[i].images.fixed_height_still.url)
                     .attr('animate', response.data[i].images.fixed_width.url)
+                    .attr('moving', 'false')
                     .attr('alt', response.data[i].title);
             
             var cardBodElem = $('<div>')
@@ -115,6 +117,19 @@ $(document).ready(function () {
         $('#topicDisplay').text($(this).text());
 
         genGif( $( this ).attr('id') );
+    });
+
+    $('.gifDiv').on('click','.gif', function(event) {
+
+        if( ($(this).attr('moving') == 'false') ){
+            $(this).attr('src',$(this).attr('animate'));
+            $(this).attr('moving','true');
+        }
+        else{
+            $(this).attr('src',$(this).attr('still'));
+            $(this).attr('moving','false');
+        }
+        
     });
 
     createButtons();
