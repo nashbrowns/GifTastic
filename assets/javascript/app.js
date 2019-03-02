@@ -13,7 +13,7 @@ function genGif(topic) {
     var api_key = 'GLYlf1aVi8LQQsHb4inf9kUlc7NWxFVi'; //plz don't steal my api key
     var limit = '10';
 
-    var queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&rating=g&api_key=${api_key}&limit=${limit}`;
+    var queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${api_key}&limit=${limit}`;
 
     console.log(queryURL);
 
@@ -33,14 +33,17 @@ function genGif(topic) {
 
             var cardElem = $('<div>')
                             .addClass('card')
-                            .attr('style','width: 18rem; height: 20rem;');
+                            .css('height', '19rem')
+                            .css('width', '19rem');
         
             var gifElem = $('<img>');
 
             gifElem.attr('src', response.data[i].images.fixed_height_still.url)
-                    .addClass('gif')
+                    .addClass('gif card-img-top')
                     .attr('still', response.data[i].images.fixed_height_still.url)
                     .attr('animate', response.data[i].images.downsized_large.url)
+                    .attr('animate-height', response.data[i].images.downsized_large.height )
+                    .attr('animate-width',response.data[i].images.downsized_large.width)
                     .attr('moving', 'false')
                     .attr('alt', response.data[i].title);
             
@@ -126,10 +129,16 @@ $(document).ready(function () {
         if( ($(this).attr('moving') == 'false') ){
             $(this).attr('src',$(this).attr('animate'));
             $(this).attr('moving','true');
+
+            $(this).parent().css('height',$(this).attr('animate-height'));
+            $(this).parent().css('width',$(this).attr('animate-width'));
         }
         else{
             $(this).attr('src',$(this).attr('still'));
             $(this).attr('moving','false');
+
+            $(this).parent().css('height','19rem');
+            $(this).parent().css('width','19rem');
         }
         
     });
