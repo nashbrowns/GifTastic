@@ -131,11 +131,7 @@ $(document).ready(function () {
             $(this).attr('src',$(this).attr('animate'));
             $(this).attr('moving','true');
 
-            console.log(typeof parseInt($(this).attr('animate-height')));
-
             var animateHeight = parseInt($(this).attr('animate-height'))+15;
-
-            console.log(typeof (animateHeight).toString());
 
             $(this).parent().css('height',animateHeight.toString());
         }
