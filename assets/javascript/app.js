@@ -34,28 +34,30 @@ function genGif(topic) {
             var cardElem = $('<div>')
                             .addClass('card')
                             .css('height', '19rem')
-                            .css('width', '19rem');
+                            .css('width', '19rem');             
         
             var gifElem = $('<img>');
 
             gifElem.attr('src', response.data[i].images.fixed_height_still.url)
                     .addClass('gif card-img-top')
                     .attr('still', response.data[i].images.fixed_height_still.url)
-                    .attr('animate', response.data[i].images.downsized_large.url)
-                    .attr('animate-height', response.data[i].images.downsized_large.height )
-                    .attr('animate-width',response.data[i].images.downsized_large.width)
+                    .attr('still-height', response.data[i].images.fixed_height_still.height)
+                    .attr('still-width', response.data[i].images.fixed_height_still.width)
+                    .attr('animate', response.data[i].images.downsized_medium.url)
+                    .attr('animate-height', response.data[i].images.downsized_medium.height )
+                    .attr('animate-width',response.data[i].images.downsized_medium.width)
                     .attr('moving', 'false')
                     .attr('alt', response.data[i].title);
             
             var cardBodElem = $('<div>')
                             .addClass('card-body');
             
-            $(cardBodElem).append($('<p>').text('Title: '+response.data[i].title));
             $(cardBodElem).append($('<p>').text('Rating: '+response.data[i].rating));
 
             $(cardElem).append(gifElem);
             $(cardElem).append(cardBodElem);
 
+            
             if(colChoice === 1){
                 $('#gifDiv1').append(cardElem);
                 colChoice = 2; 
@@ -68,8 +70,7 @@ function genGif(topic) {
                 $('#gifDiv3').append(cardElem);
                 colChoice = 1;
             }
-
-            
+ 
         }
     });
 
@@ -130,15 +131,19 @@ $(document).ready(function () {
             $(this).attr('src',$(this).attr('animate'));
             $(this).attr('moving','true');
 
-            $(this).parent().css('height',$(this).attr('animate-height'));
-            $(this).parent().css('width',$(this).attr('animate-width'));
+            console.log(typeof parseInt($(this).attr('animate-height')));
+
+            var animateHeight = parseInt($(this).attr('animate-height'))+15;
+
+            console.log(typeof (animateHeight).toString());
+
+            $(this).parent().css('height',animateHeight.toString());
         }
         else{
             $(this).attr('src',$(this).attr('still'));
             $(this).attr('moving','false');
 
             $(this).parent().css('height','19rem');
-            $(this).parent().css('width','19rem');
         }
         
     });

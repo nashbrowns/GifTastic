@@ -8,7 +8,7 @@ p{
     padding-bottom:0px;
 }
 .card{
-    background-color: rgb(0, 238, 255);
+    background-color: rgba(0, 238, 255, 0.605);
     padding:10px;
     margin: 20px 0px 20px 0px;
 }
